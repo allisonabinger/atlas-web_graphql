@@ -1,7 +1,5 @@
 // Task 0: creates an object which contains the schema property
-
-const graphql = require('graphql')
-const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema } = graphql
+const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema } = require('graphql')
 
 const TaskType = new GraphQLObjectType({
     name: 'Task',
