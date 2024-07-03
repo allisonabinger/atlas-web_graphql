@@ -5,7 +5,8 @@ const mongoose = require('mongoose')
 
 const app = express();
 
-// connects to the GraphQLAPI database in cluster01, project and task will send to 'Grading' collection
+// connects to the GraphQLAPI database in cluster01
+// project and task models will send to 'Grading' collection
 const mongoURI = 'mongodb+srv://allisonabinger:root@cluster01.oqci0pb.mongodb.net/GraphQLAPI'
 
 async function connectMongo() {
