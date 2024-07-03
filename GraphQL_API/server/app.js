@@ -5,7 +5,8 @@ const mongoose = require('mongoose')
 
 const app = express();
 
-const mongoURI = 'mongodb+srv://allisonabinger:root@cluster01.oqci0pb.mongodb.net/'
+// connects to the GraphQLAPI database in cluster01, project and task will send to 'Grading' collection
+const mongoURI = 'mongodb+srv://allisonabinger:root@cluster01.oqci0pb.mongodb.net/GraphQLAPI'
 
 async function connectMongo() {
     console.log('Connecting to MongoDB database...')
