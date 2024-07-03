@@ -6,7 +6,7 @@ const taskSchema = new Schema({
     weight: Number,
     description: String,
     projectId: String
-});
+}, { collection: 'Grading' });
 
 // export model defined as Task and base it to schema taskSchema
 module.exports = mongoose.model('Task', taskSchema);
