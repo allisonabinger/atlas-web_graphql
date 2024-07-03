@@ -1,7 +1,9 @@
 // Task 0: creates an object which contains the schema property
-const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema, GraphQLID, GraphQLList, GraphQLScalarType } = require('graphql');
+const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema, GraphQLID, GraphQLList, GraphQLScalarType, GraphQLNonNull } = require('graphql');
 const { resolveFieldValueOrError } = require('graphql/execution/execute');
 const _ = require('lodash');
+const Project = require('../models/project');
+const Task = require('../models/task');
 
 const tasks = [
     { id: '1', title: 'Create your first webpage', weight: 1, description: 'Create your first HTML file 0-index.html with: -Add the doctype on the first line (without any comment) -After the doctype, open and close a html tag Open your file in your browser (the page should be blank)',  projectId: '1' },
@@ -74,7 +76,7 @@ const RootQuery = new GraphQLObjectType({
        tasks: {
         type: new GraphQLList(TaskType),
         resolve(parent, args) {
-            return tasks
+            return tasks;
         }
         },
        projects: {
@@ -86,6 +88,49 @@ const RootQuery = new GraphQLObjectType({
     }
 });
 
+// mutation: operation to modify data on server (post, put, delete)
+const Mutation = new GraphQLObjectType({
+    name: 'Mutation',
+    fields: {
+        addProject: {
+            type: ProjectType,
+            args: {
+                title: { type: new GraphQLNonNull(GraphQLString) },
+                weight: { type: new GraphQLNonNull(GraphQLInt) },
+                description: { type: new GraphQLNonNull(GraphQLString) }
+            },
+            resolve(parent, args) {
+                const { title, weight, description } = args;
+                const newProject = new Project({
+                    title,
+                    weight,
+                    description
+                });
+                return newProject.save();
+            }
+        },
+        addTask: {
+            type: TaskType,
+            args: {
+                title: { type: new GraphQLNonNull(GraphQLString) },
+                weight: { type: new GraphQLNonNull(GraphQLInt) },
+                description: { type: new GraphQLNonNull(GraphQLString) },
+                projectId: { type: new GraphQLNonNull(GraphQLID) }
+            },
+            resolve(parent, args) {
+                const { title, weight, description, projectId } = args;
+                const newTask = new Task({
+                    title,
+                    weight,
+                    description
+                });
+                return newTask.save();
+            }
+        }
+    }
+});
+
 module.exports = new GraphQLSchema({
-    query: RootQuery
+    query: RootQuery,
+    mutation: Mutation
 });
