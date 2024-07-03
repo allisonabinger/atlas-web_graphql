@@ -1,0 +1,11 @@
+query {
+    tasks {
+        id
+        title
+        weight
+        description
+        project {
+            title
+        }
+    }
+}

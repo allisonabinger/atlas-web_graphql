@@ -1,5 +1,5 @@
 // Task 0: creates an object which contains the schema property
-const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema, GraphQLID, GraphQLList } = require('graphql');
+const { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema, GraphQLID, GraphQLList, GraphQLScalarType } = require('graphql');
 const { resolveFieldValueOrError } = require('graphql/execution/execute');
 const _ = require('lodash');
 
@@ -70,7 +70,19 @@ const RootQuery = new GraphQLObjectType({
             resolve(parent, args) {
                 return _.find(projects, { id: args.id });
             }
-       } 
+       },
+       tasks: {
+        type: new GraphQLList(TaskType),
+        resolve(parent, args) {
+            return tasks
+        }
+        },
+       projects: {
+        type: new GraphQLList(ProjectType),
+        resolve(parent, args) {
+            return projects;
+        }
+       }
     }
 });
 
